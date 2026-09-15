@@ -1,0 +1,156 @@
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f5f8;
+    color: #1f2937
+}
+
+header {
+    background: #172033;
+    color: white;
+    padding: 16px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px
+}
+
+.grid input,
+.login-card input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px
+}
+
+button {
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 15px
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0001
+}
+
+.card button {
+    margin: 5px 4px 0 0
+}
+
+.status {
+    font-weight: bold
+}
+
+.login-body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh
+}
+
+.login-card {
+    background: white;
+    padding: 30px;
+    width: min(400px, 90%);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px #0002
+}
+
+.login-card label {
+    display: block;
+    margin: 15px 0
+}
+
+.error {
+    color: #b91c1c
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0008;
+    align-items: center;
+    justify-content: center
+}
+
+.modal.show {
+    display: flex
+}
+
+.modal-box {
+    background: white;
+    width: min(700px, 92%);
+    max-height: 85vh;
+    overflow: auto;
+    padding: 25px;
+    border-radius: 14px;
+    position: relative
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: #6b7280
+}
+
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px
+}
+
+.filters label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+@media(max-width:650px) {
+    .grid {
+        grid-template-columns: 1fr
+    }
+
+    .filters {
+        flex-direction: column
+    }
+
+    header {
+        gap: 10px;
+        flex-direction: column
+    }
+}
