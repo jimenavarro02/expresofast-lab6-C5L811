@@ -1,0 +1,16 @@
+backend/target/
+
+*.class
+
+.vscode/
+
+.env
+*.env
+
+*.log
+
+.DS_Store
+Thumbs.db
+
+# Configuración local con credenciales
+backend/src/main/resources/application.properties
