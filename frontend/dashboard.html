@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpresoFast - Consola de Operaciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="app-header">
+        <div class="header-brand">
+            <p class="brand">ExpresoFast</p>
+            <p class="header-subtitle">Consola de Operaciones</p>
+        </div>
+        <div class="header-user">
+            <p id="userDisplay" aria-live="polite"></p>
+            <button id="logoutBtn" type="button">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <nav class="filter-nav" aria-label="Filtrar envíos por estado">
+        <ul class="filter-list">
+            <li><button type="button" class="filter-btn active" data-filter="TODOS">Todos</button></li>
+            <li><button type="button" class="filter-btn" data-filter="PENDIENTE">Pendientes</button></li>
+            <li><button type="button" class="filter-btn" data-filter="EN_TRANSITO">En Tránsito</button></li>
+            <li><button type="button" class="filter-btn" data-filter="ENTREGADO">Entregados</button></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-main">
+        <section id="kpiSection" class="kpi-section" aria-label="Indicadores clave">
+            <article class="kpi-card">
+                <h2>Total Envíos</h2>
+                <p id="kpiTotal" class="kpi-value">0</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Vehículos Activos</h2>
+                <p id="kpiVehiculos" class="kpi-value">0</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Paquetes Entregados</h2>
+                <p id="kpiEntregados" class="kpi-value">0</p>
+            </article>
+        </section>
+
+        <section id="adminTools" class="admin-tools" hidden aria-label="Herramientas de administración">
+            <h2>Registrar vehículo</h2>
+            <form id="vehiculoForm" class="inline-form">
+                <label for="placa">Placa</label>
+                <input id="placa" name="placa" type="text" placeholder="EF-004" required>
+
+                <label for="capacidad">Capacidad (kg)</label>
+                <input id="capacidad" name="capacidad" type="number" step="0.01" min="1" required>
+
+                <label for="empresaId">ID Empresa</label>
+                <input id="empresaId" name="empresaId" type="number" min="1" value="1" required>
+
+                <button type="submit">Registrar vehículo</button>
+            </form>
+        </section>
+
+        <section id="vehiculosSection" class="vehiculos-section" hidden aria-labelledby="vehiculosTitle">
+            <h2 id="vehiculosTitle">Flota de vehículos</h2>
+            <p class="section-hint">Los vehículos registrados aparecen aquí. También se reflejan en el indicador «Vehículos Activos».</p>
+            <div id="vehiculosContainer" class="envios-grid"></div>
+        </section>
+
+        <section id="enviosGrid" class="envios-section" aria-labelledby="enviosTitle">
+            <h2 id="enviosTitle">Envíos</h2>
+            <div id="enviosContainer" class="envios-grid"></div>
+        </section>
+
+        <aside id="auditAside" class="audit-aside" hidden aria-labelledby="auditTitle">
+            <h2 id="auditTitle">Bitácora de Auditoría</h2>
+            <div id="auditLog" class="audit-log"></div>
+        </aside>
+    </main>
+
+    <div id="alertBox" class="alert-box" role="alert" aria-live="polite" hidden></div>
+
+    <footer class="app-footer">
+        <p>&copy; 2026 ExpresoFast. Todos los derechos reservados.</p>
+        <nav aria-label="Enlaces de soporte">
+            <a href="mailto:soporte@expresofast.cr">Soporte técnico</a>
+            <a href="#">Política de privacidad</a>
+        </nav>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

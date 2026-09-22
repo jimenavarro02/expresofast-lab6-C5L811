@@ -44,11 +44,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/generar-password").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/envios").hasAnyRole("ADMIN", "OPERADOR", "CONDUCTOR")
                         .requestMatchers("/api/envios/optimizados").hasAnyRole("ADMIN", "OPERADOR", "CONDUCTOR")
+                        .requestMatchers(HttpMethod.GET, "/api/envios/bitacora/historial").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/envios").hasAnyRole("ADMIN", "OPERADOR")
                         .requestMatchers(HttpMethod.PATCH, "/api/envios/*/estado").hasAnyRole("ADMIN", "CONDUCTOR")
                         .requestMatchers(HttpMethod.GET, "/api/envios/*/bitacora").hasAnyRole("ADMIN", "OPERADOR")
-                        .requestMatchers("/api/vehiculos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/vehiculos/**").hasAnyRole("ADMIN", "OPERADOR")
+                        .requestMatchers(HttpMethod.POST, "/api/vehiculos").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -59,8 +62,8 @@ public class SecurityConfig {
         CorsConfiguration c = new CorsConfiguration();
         c.setAllowedOrigins(List.of("http://127.0.0.1:5500", "http://localhost:5500"));
         c.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
-        c.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        c.setAllowCredentials(false);
+        c.setAllowedHeaders(List.of("*"));
+        c.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource s = new UrlBasedCorsConfigurationSource();
         s.registerCorsConfiguration("/**", c);
         return s;

@@ -3,118 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ExpresoFast - Tablero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpresoFast - Inicio de sesión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="login-page">
 
-    <header>
-        <h1>ExpresoFast</h1>
-
-        <nav aria-label="Navegación principal">
-            <span id="userInfo"></span>
-            <button id="logoutBtn" type="button">Cerrar sesión</button>
-        </nav>
+    <header class="login-header">
+        <p class="brand">ExpresoFast</p>
+        <p class="tagline">Consola de Operación Logística</p>
     </header>
 
-    <main>
+    <main class="login-main">
+        <section class="login-panel" aria-labelledby="loginTitle">
+            <h1 id="loginTitle">Iniciar sesión</h1>
+            <p class="login-subtitle">Ingrese sus credenciales para acceder al tablero de control.</p>
 
-        <section id="adminPanel" class="panel">
-            <h2>Nuevo envío</h2>
+            <form id="loginForm" novalidate>
+                <label for="username">Usuario</label>
+                <input id="username" name="username" type="text" autocomplete="username" required>
 
-            <form id="envioForm" class="grid">
+                <label for="password">Contraseña</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
 
-                <div>
-                    <label for="codigo">Código de rastreo</label>
-                    <input id="codigo" name="codigo" placeholder="EXP-1234" required>
-                </div>
-
-                <div>
-                    <label for="direccion">Dirección destino</label>
-                    <input id="direccion" name="direccion" placeholder="Dirección destino" required>
-                </div>
-
-                <div>
-                    <label for="peso">Peso en kg</label>
-                    <input id="peso" name="peso" type="number" step="0.01" min="0.01" placeholder="Peso kg" required>
-                </div>
-
-                <div>
-                    <label for="costo">Costo</label>
-                    <input id="costo" name="costo" type="number" step="0.01" min="0.01" placeholder="Costo" required>
-                </div>
-
-                <div>
-                    <label for="vehiculoId">ID del vehículo</label>
-                    <input id="vehiculoId" name="vehiculoId" type="number" min="1" placeholder="ID vehículo" required>
-                </div>
-
-                <div>
-                    <label for="conductorId">ID del conductor</label>
-                    <input id="conductorId" name="conductorId" type="number" min="1" placeholder="ID conductor"
-                        required>
-                </div>
-
-                <button type="submit">Crear envío</button>
-
+                <button type="submit">Ingresar</button>
             </form>
+
+            <p id="loginError" class="alert alert-error" role="alert" aria-live="polite"></p>
         </section>
-
-        <section aria-labelledby="enviosTitulo">
-            <h2 id="enviosTitulo">Envíos</h2>
-
-            <article id="envios" class="cards">
-            </article>
-        </section>
-
-        <aside class="panel">
-            <h2>Información</h2>
-            <p>
-                Desde este tablero puede consultar y administrar los envíos
-                según los permisos del usuario.
-            </p>
-        </aside>
-
     </main>
 
-    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bitacoraTitulo">
-
-        <div class="modal-box">
-
-            <button id="closeModal" class="close" type="button" aria-label="Cerrar bitácora">
-                ×
-            </button>
-
-            <h2 id="bitacoraTitulo">Bitácora</h2>
-
-            <div class="filters">
-
-                <label for="desde">
-                    Desde
-                    <input type="date" id="desde" name="desde">
-                </label>
-
-                <label for="hasta">
-                    Hasta
-                    <input type="date" id="hasta" name="hasta">
-                </label>
-
-            </div>
-
-            <div id="bitacora"></div>
-
-        </div>
-
-    </div>
-
-    <footer>
-        <p>ExpresoFast - Sistema de gestión de envíos</p>
+    <footer class="login-footer">
+        <p>&copy; 2026 ExpresoFast. Todos los derechos reservados.</p>
+        <p><a href="mailto:soporte@expresofast.cr">soporte@expresofast.cr</a></p>
     </footer>
 
     <script src="app.js"></script>
-
 </body>
 
 </html>

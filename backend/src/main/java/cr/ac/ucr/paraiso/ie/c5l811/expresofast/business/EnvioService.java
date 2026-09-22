@@ -31,6 +31,17 @@ public class EnvioService {
         return envios.findAllOptimized().stream().map(this::toDto).toList();
     }
 
+    public List<EnvioResponseDTO> listar() {
+        return optimizados();
+    }
+
+    public List<BitacoraResponseDTO> historialBitacora() {
+        return bitacoras.findAllHistorial().stream()
+                .map(b -> new BitacoraResponseDTO(b.getId(), b.getEstadoAnterior(),
+                        b.getEstadoNuevo(), b.getFechaCambio(), b.getUsuario().getUsername(), b.getObservaciones()))
+                .toList();
+    }
+
     @Transactional
     public EnvioResponseDTO crear(EnvioRequestDTO d) {
         Envio e = new Envio();

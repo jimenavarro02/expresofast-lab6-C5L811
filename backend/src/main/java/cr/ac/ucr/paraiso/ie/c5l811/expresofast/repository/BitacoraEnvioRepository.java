@@ -8,4 +8,7 @@ import java.util.List;
 public interface BitacoraEnvioRepository extends JpaRepository<BitacoraEnvio, Integer> {
     @Query("select b from BitacoraEnvio b join fetch b.usuario where b.envio.id=:envioId order by b.fechaCambio desc")
     List<BitacoraEnvio> findByEnvioId(@Param("envioId") Integer envioId);
+
+    @Query("select b from BitacoraEnvio b join fetch b.usuario order by b.fechaCambio desc")
+    List<BitacoraEnvio> findAllHistorial();
 }

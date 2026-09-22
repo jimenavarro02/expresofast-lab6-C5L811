@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -34,8 +35,13 @@ public class JwtTokenProvider {
         Date expiration = new Date(
                 now.getTime() + expirationMs);
 
+        var roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
         return Jwts.builder()
                 .subject(auth.getName())
+                .claim("roles", roles)
                 .issuedAt(now)
                 .expiration(expiration)
                 .signWith(key)

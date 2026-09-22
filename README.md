@@ -1,7 +1,7 @@
-# ExpresoFast — Laboratorio 7
+# ExpresoFast — Laboratorio 8
 
 **IF0009 - Desarrollo de Software IV**
-**II-2026 — Laboratorio 7: Suite de Pruebas, Seguridad JWT, RBAC, DTOs y Bitácora**
+**II-2026 — Laboratorio 8: Integración Pila Completa (Full-Stack)**
 **Estudiante:** Jimena Navarro Álvarez
 **Carnet:** C5L811
 
@@ -11,19 +11,27 @@
 * Maven 3.9.x
 * Spring Boot 3.x
 * Microsoft SQL Server + SSMS
-* Navegador moderno
-* VS Code
+* Navegador moderno (Chrome / Firefox)
+* VS Code con Live Server
 * Git y GitHub
+
+## Estructura del proyecto
+
+```text
+/backend   → API REST Spring Boot (Labs 6 y 7)
+/frontend  → Cliente HTML5, CSS3 y JavaScript (Lab 8)
+/database  → Scripts SQL
+```
 
 ## Base de datos
 
 1. Use la base `ExpresoFastC5L811_II2026`.
-2. Ejecute `database/01_schema_lab5.sql` con el esquema de su Laboratorio 5.
+2. Ejecute `database/01_schema_lab5.sql`.
 3. Ejecute `database/02_schema_lab6_extension.sql`.
 4. Ejecute `database/03_data_seeds.sql`.
-5. Configure `backend/src/main/resources/application.properties` con los datos de conexión a SQL Server.
+5. Configure `backend/src/main/resources/application.properties`.
 
-**Importante:** no publique credenciales reales de la base de datos en GitHub.
+**Importante:** no publique credenciales reales en GitHub.
 
 ## Ejecución del backend
 
@@ -31,115 +39,61 @@ Desde la carpeta `backend`:
 
 ```bash
 mvn clean package
-```
-
-Para ejecutar el proyecto:
-
-```bash
 mvn spring-boot:run
 ```
 
-El backend se ejecuta en:
+La API queda disponible en:
 
 ```text
 http://localhost:8080
 ```
 
-Luego abra `frontend/login.html` usando Live Server de VS Code, por ejemplo:
+## Ejecución del frontend
+
+1. Abra la carpeta `frontend` en VS Code.
+2. Inicie **Live Server** sobre `index.html`.
+3. El cliente se abrirá en:
 
 ```text
-http://127.0.0.1:5500
+http://127.0.0.1:5500/index.html
 ```
 
-## Ejecución de las pruebas
+## Credenciales de prueba
 
-Las pruebas automatizadas se encuentran en:
+| Usuario     | Contraseña   | Rol              |
+|-------------|--------------|------------------|
+| admin       | Password123! | ROLE_ADMIN       |
+| operador1   | Password123! | ROLE_OPERADOR    |
+| conductor1  | Password123! | ROLE_CONDUCTOR   |
 
-```text
-backend/src/test/java
-```
+## Endpoints principales
 
-Para limpiar el proyecto y ejecutar la suite de pruebas:
+* POST `/api/auth/login` — público
+* GET `/api/envios` — ADMIN, OPERADOR, CONDUCTOR
+* PATCH `/api/envios/{id}/estado` — ADMIN, CONDUCTOR
+* GET `/api/envios/bitacora/historial` — ADMIN
+* GET `/api/vehiculos` — ADMIN, OPERADOR
+* POST `/api/vehiculos` — ADMIN
+
+## Características del Lab 8
+
+* CORS configurado en `WebConfig` para `http://localhost:5500` y `http://127.0.0.1:5500`
+* Login en `index.html` con formulario accesible y mensajes ARIA
+* Dashboard en `dashboard.html` con HTML5 semántico
+* CSS responsivo con variables, Flexbox y CSS Grid
+* Consumo de API con Fetch API, JWT en `sessionStorage` y cabecera `Authorization: Bearer`
+* Interfaz adaptada por rol: ADMIN, OPERADOR y CONDUCTOR
+
+## Pruebas automatizadas
 
 ```bash
+cd backend
 mvn clean test
-```
-
-Este comando ejecuta las pruebas automatizadas del proyecto y muestra en la terminal el resultado de las pruebas.
-
-## Verificación completa
-
-Para ejecutar las pruebas y generar el reporte de cobertura:
-
-```bash
 mvn clean verify
 ```
 
-Al finalizar correctamente, Maven debe mostrar:
-
-```text
-BUILD SUCCESS
-```
-
-## Reporte de cobertura JaCoCo
-
-El proyecto utiliza JaCoCo para generar el reporte HTML de cobertura.
-
-Después de ejecutar:
-
-```bash
-mvn clean verify
-```
-
-el reporte se encuentra en:
+Reporte JaCoCo:
 
 ```text
 backend/target/site/jacoco/index.html
 ```
-
-Para visualizarlo, abra el archivo `index.html` en un navegador.
-
-## Suite de pruebas
-
-La suite incluye pruebas relacionadas con:
-
-* Autenticación.
-* Servicios.
-* Controladores.
-* Seguridad JWT.
-* Roles y autorización.
-* Filtros de autenticación.
-* Validaciones de seguridad.
-
-## Endpoints
-
-* POST `/api/auth/login` — público.
-* GET `/api/envios/optimizados` — ADMIN, OPERADOR, CONDUCTOR.
-* POST `/api/envios` — ADMIN, OPERADOR.
-* PATCH `/api/envios/{id}/estado` — ADMIN, CONDUCTOR.
-* GET `/api/envios/{id}/bitacora` — ADMIN, OPERADOR.
-* `/api/vehiculos/**` — ADMIN.
-
-## Seguridad
-
-El proyecto utiliza:
-
-* JWT para autenticación.
-* BCrypt para contraseñas.
-* RBAC para control de acceso según roles.
-* CORS.
-* Validaciones mediante Jakarta Validation.
-* Sesiones Stateless.
-
-## Nota sobre el esquema del Lab 5
-
-El archivo `01_schema_lab5.sql` es un marcador porque el esquema exacto de la primera parte no está incluido en este proyecto. Debe sustituirse por el script original del Laboratorio 5 para conservar exactamente sus tablas y columnas.
-
-## Entrega
-
-Para la entrega del Laboratorio 7 se incluye:
-
-* Código fuente de la suite de pruebas en `backend/src/test/java`.
-* Este archivo `README.md` actualizado.
-* Evidencia de ejecución exitosa de `mvn clean verify`.
-* Reporte HTML de cobertura generado por JaCoCo.

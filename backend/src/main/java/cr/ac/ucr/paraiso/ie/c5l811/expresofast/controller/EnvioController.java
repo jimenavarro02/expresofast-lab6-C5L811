@@ -16,9 +16,19 @@ public class EnvioController {
         service = s;
     }
 
+    @GetMapping
+    public List<EnvioResponseDTO> listar() {
+        return service.listar();
+    }
+
     @GetMapping("/optimizados")
     public List<EnvioResponseDTO> optimizados() {
         return service.optimizados();
+    }
+
+    @GetMapping("/bitacora/historial")
+    public List<BitacoraResponseDTO> historialBitacora() {
+        return service.historialBitacora();
     }
 
     @PostMapping
