@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnvioService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">expresofast</a> &gt; <a href="index.source.html" class="el_package">cr.ac.ucr.paraiso.ie.c5l811.expresofast.business</a> &gt; <span class="el_source">EnvioService.java</span></div><h1>EnvioService.java</h1><pre class="source lang-java linenums">package cr.ac.ucr.paraiso.ie.c5l811.expresofast.business;
+
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.domain.*;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.dto.*;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.exception.*;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.repository.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class EnvioService {
+    private final EnvioRepository envios;
+    private final VehiculoRepository vehiculos;
+    private final ConductorRepository conductores;
+    private final UsuarioRepository usuarios;
+    private final BitacoraEnvioRepository bitacoras;
+
+    public EnvioService(EnvioRepository e, VehiculoRepository v, ConductorRepository c, UsuarioRepository u,
+<span class="fc" id="L22">            BitacoraEnvioRepository b) {</span>
+<span class="fc" id="L23">        envios = e;</span>
+<span class="fc" id="L24">        vehiculos = v;</span>
+<span class="fc" id="L25">        conductores = c;</span>
+<span class="fc" id="L26">        usuarios = u;</span>
+<span class="fc" id="L27">        bitacoras = b;</span>
+<span class="fc" id="L28">    }</span>
+
+    public List&lt;EnvioResponseDTO&gt; optimizados() {
+<span class="nc" id="L31">        return envios.findAllOptimized().stream().map(this::toDto).toList();</span>
+    }
+
+    public List&lt;EnvioResponseDTO&gt; listar() {
+<span class="nc" id="L35">        return optimizados();</span>
+    }
+
+    public List&lt;BitacoraResponseDTO&gt; historialBitacora() {
+<span class="nc" id="L39">        return bitacoras.findAllHistorial().stream()</span>
+<span class="nc" id="L40">                .map(b -&gt; new BitacoraResponseDTO(b.getId(), b.getEstadoAnterior(),</span>
+<span class="nc" id="L41">                        b.getEstadoNuevo(), b.getFechaCambio(), b.getUsuario().getUsername(), b.getObservaciones()))</span>
+<span class="nc" id="L42">                .toList();</span>
+    }
+
+    @Transactional
+    public EnvioResponseDTO crear(EnvioRequestDTO d) {
+<span class="fc" id="L47">        Envio e = new Envio();</span>
+<span class="fc" id="L48">        e.setCodigoRastreo(d.codigoRastreo());</span>
+<span class="fc" id="L49">        e.setDireccionDestino(d.direccionDestino());</span>
+<span class="fc" id="L50">        e.setPesoKg(d.pesoKg());</span>
+<span class="fc" id="L51">        e.setCosto(d.costo());</span>
+<span class="fc" id="L52">        e.setEstadoEnvio(&quot;PENDIENTE&quot;);</span>
+<span class="fc" id="L53">        e.setVehiculo(vehiculos.findById(d.vehiculoId())</span>
+<span class="fc" id="L54">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Vehículo no encontrado&quot;)));</span>
+<span class="fc" id="L55">        e.setConductor(conductores.findById(d.conductorId())</span>
+<span class="fc" id="L56">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Conductor no encontrado&quot;)));</span>
+<span class="fc" id="L57">        return toDto(envios.save(e));</span>
+    }
+
+    @Transactional
+    public EnvioResponseDTO cambiarEstado(Integer id, CambioEstadoDTO d) {
+<span class="fc" id="L62">        Envio e = envios.findByIdWithRelations(id)</span>
+<span class="fc" id="L63">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Envío no encontrado&quot;));</span>
+<span class="fc" id="L64">        String anterior = e.getEstadoEnvio(), nuevo = d.nuevoEstado().trim().toUpperCase();</span>
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">        if ((&quot;ENTREGADO&quot;.equals(anterior) || &quot;CANCELADO&quot;.equals(anterior))</span>
+<span class="pc bpc" id="L66" title="3 of 4 branches missed.">                &amp;&amp; (&quot;PENDIENTE&quot;.equals(nuevo) || &quot;EN_TRANSITO&quot;.equals(nuevo)))</span>
+<span class="fc" id="L67">            throw new InvalidStateTransitionException(</span>
+<span class="fc" id="L68">                    &quot;Transición de estado no permitida para el envío &quot; + e.getCodigoRastreo());</span>
+<span class="fc" id="L69">        e.setEstadoEnvio(nuevo);</span>
+<span class="fc" id="L70">        envios.save(e);</span>
+<span class="fc" id="L71">        String username = SecurityContextHolder.getContext().getAuthentication().getName();</span>
+<span class="fc" id="L72">        Usuario u = usuarios.findByUsername(username)</span>
+<span class="pc" id="L73">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Usuario no encontrado&quot;));</span>
+<span class="fc" id="L74">        BitacoraEnvio b = new BitacoraEnvio();</span>
+<span class="fc" id="L75">        b.setEnvio(e);</span>
+<span class="fc" id="L76">        b.setEstadoAnterior(anterior);</span>
+<span class="fc" id="L77">        b.setEstadoNuevo(nuevo);</span>
+<span class="fc" id="L78">        b.setFechaCambio(LocalDateTime.now());</span>
+<span class="fc" id="L79">        b.setUsuario(u);</span>
+<span class="fc" id="L80">        b.setObservaciones(d.observaciones());</span>
+<span class="fc" id="L81">        bitacoras.save(b);</span>
+<span class="fc" id="L82">        return toDto(e);</span>
+    }
+
+    public List&lt;BitacoraResponseDTO&gt; bitacora(Integer id) {
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (!envios.existsById(id))</span>
+<span class="fc" id="L87">            throw new ResourceNotFoundException(&quot;Envío no encontrado&quot;);</span>
+<span class="nc" id="L88">        return bitacoras</span>
+<span class="nc" id="L89">                .findByEnvioId(id).stream().map(b -&gt; new BitacoraResponseDTO(b.getId(), b.getEstadoAnterior(),</span>
+<span class="nc" id="L90">                        b.getEstadoNuevo(), b.getFechaCambio(), b.getUsuario().getUsername(), b.getObservaciones()))</span>
+<span class="nc" id="L91">                .toList();</span>
+    }
+
+    private EnvioResponseDTO toDto(Envio e) {
+<span class="fc" id="L95">        return new EnvioResponseDTO(e.getId(), e.getCodigoRastreo(), e.getDireccionDestino(), e.getPesoKg(),</span>
+<span class="fc" id="L96">                e.getCosto(), e.getEstadoEnvio(),</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                e.getVehiculo() != null ? e.getVehiculo().getPlaca() : null,</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                e.getConductor() != null ? e.getConductor().getNombre() : null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

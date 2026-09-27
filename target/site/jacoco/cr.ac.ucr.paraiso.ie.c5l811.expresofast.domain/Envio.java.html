@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Envio.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">expresofast</a> &gt; <a href="index.source.html" class="el_package">cr.ac.ucr.paraiso.ie.c5l811.expresofast.domain</a> &gt; <span class="el_source">Envio.java</span></div><h1>Envio.java</h1><pre class="source lang-java linenums">package cr.ac.ucr.paraiso.ie.c5l811.expresofast.domain;
+
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = &quot;Envio&quot;)
+<span class="fc" id="L8">public class Envio {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;envio_id&quot;)
+    private Integer id;
+    @Column(name = &quot;codigo_rastreo&quot;, nullable = false, unique = true, length = 20)
+    private String codigoRastreo;
+    @Column(name = &quot;direccion_destino&quot;, nullable = false, length = 250)
+    private String direccionDestino;
+    @Column(name = &quot;peso_kg&quot;, nullable = false, precision = 10, scale = 2)
+    private BigDecimal pesoKg;
+    @Column(name = &quot;costo&quot;, nullable = false, precision = 10, scale = 2)
+    private BigDecimal costo;
+    @Column(name = &quot;estado_envio&quot;, nullable = false, length = 20)
+    private String estadoEnvio;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;vehiculo_id&quot;)
+    private Vehiculo vehiculo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;conductor_id&quot;)
+    private Conductor conductor;
+
+    public Integer getId() {
+<span class="fc" id="L32">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="fc" id="L36">        this.id = id;</span>
+<span class="fc" id="L37">    }</span>
+
+    public String getCodigoRastreo() {
+<span class="fc" id="L40">        return codigoRastreo;</span>
+    }
+
+    public void setCodigoRastreo(String v) {
+<span class="fc" id="L44">        this.codigoRastreo = v;</span>
+<span class="fc" id="L45">    }</span>
+
+    public String getDireccionDestino() {
+<span class="fc" id="L48">        return direccionDestino;</span>
+    }
+
+    public void setDireccionDestino(String v) {
+<span class="fc" id="L52">        this.direccionDestino = v;</span>
+<span class="fc" id="L53">    }</span>
+
+    public BigDecimal getPesoKg() {
+<span class="fc" id="L56">        return pesoKg;</span>
+    }
+
+    public void setPesoKg(BigDecimal v) {
+<span class="fc" id="L60">        this.pesoKg = v;</span>
+<span class="fc" id="L61">    }</span>
+
+    public BigDecimal getCosto() {
+<span class="fc" id="L64">        return costo;</span>
+    }
+
+    public void setCosto(BigDecimal v) {
+<span class="fc" id="L68">        this.costo = v;</span>
+<span class="fc" id="L69">    }</span>
+
+    public String getEstadoEnvio() {
+<span class="fc" id="L72">        return estadoEnvio;</span>
+    }
+
+    public void setEstadoEnvio(String v) {
+<span class="fc" id="L76">        this.estadoEnvio = v;</span>
+<span class="fc" id="L77">    }</span>
+
+    public Vehiculo getVehiculo() {
+<span class="fc" id="L80">        return vehiculo;</span>
+    }
+
+    public void setVehiculo(Vehiculo v) {
+<span class="fc" id="L84">        this.vehiculo = v;</span>
+<span class="fc" id="L85">    }</span>
+
+    public Conductor getConductor() {
+<span class="fc" id="L88">        return conductor;</span>
+    }
+
+    public void setConductor(Conductor v) {
+<span class="fc" id="L92">        this.conductor = v;</span>
+<span class="fc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VehiculoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">expresofast</a> &gt; <a href="index.source.html" class="el_package">cr.ac.ucr.paraiso.ie.c5l811.expresofast.business</a> &gt; <span class="el_source">VehiculoService.java</span></div><h1>VehiculoService.java</h1><pre class="source lang-java linenums">package cr.ac.ucr.paraiso.ie.c5l811.expresofast.business;
+
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.domain.EmpresaLogistica;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.domain.Vehiculo;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.dto.VehiculoRequestDTO;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.dto.VehiculoResponseDTO;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.exception.ResourceNotFoundException;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.repository.EmpresaLogisticaRepository;
+import cr.ac.ucr.paraiso.ie.c5l811.expresofast.repository.VehiculoRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class VehiculoService {
+
+    private final VehiculoRepository vehiculos;
+    private final EmpresaLogisticaRepository empresas;
+
+<span class="nc" id="L21">    public VehiculoService(VehiculoRepository vehiculos, EmpresaLogisticaRepository empresas) {</span>
+<span class="nc" id="L22">        this.vehiculos = vehiculos;</span>
+<span class="nc" id="L23">        this.empresas = empresas;</span>
+<span class="nc" id="L24">    }</span>
+
+    @Transactional(readOnly = true)
+    public List&lt;VehiculoResponseDTO&gt; listar() {
+<span class="nc" id="L28">        return vehiculos.findAll().stream().map(this::toDto).toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public VehiculoResponseDTO obtener(Integer id) {
+<span class="nc" id="L33">        return toDto(vehiculos.findById(id)</span>
+<span class="nc" id="L34">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Vehículo no encontrado&quot;)));</span>
+    }
+
+    @Transactional
+    public VehiculoResponseDTO crear(VehiculoRequestDTO dto) {
+<span class="nc" id="L39">        EmpresaLogistica empresa = empresas.findById(dto.empresaId())</span>
+<span class="nc" id="L40">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;La empresa indicada no existe&quot;));</span>
+
+<span class="nc" id="L42">        Vehiculo vehiculo = new Vehiculo();</span>
+<span class="nc" id="L43">        vehiculo.setPlaca(dto.placa().trim().toUpperCase());</span>
+<span class="nc" id="L44">        vehiculo.setCapacidadKg(dto.capacidadKg());</span>
+<span class="nc" id="L45">        vehiculo.setEstado(&quot;DISPONIBLE&quot;);</span>
+<span class="nc" id="L46">        vehiculo.setEmpresa(empresa);</span>
+
+<span class="nc" id="L48">        return toDto(vehiculos.save(vehiculo));</span>
+    }
+
+    private VehiculoResponseDTO toDto(Vehiculo vehiculo) {
+<span class="nc" id="L52">        return new VehiculoResponseDTO(</span>
+<span class="nc" id="L53">                vehiculo.getId(),</span>
+<span class="nc" id="L54">                vehiculo.getPlaca(),</span>
+<span class="nc" id="L55">                vehiculo.getCapacidadKg(),</span>
+<span class="nc" id="L56">                vehiculo.getEstado(),</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                vehiculo.getEmpresa() != null ? vehiculo.getEmpresa().getId() : null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

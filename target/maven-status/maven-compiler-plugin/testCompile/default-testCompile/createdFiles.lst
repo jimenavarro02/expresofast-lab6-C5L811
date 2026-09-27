@@ -1,0 +1,8 @@
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\security\CustomUserDetailsServiceTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\business\AuthServiceTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\business\EnvioServiceTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\security\JwtAuthenticationFilterTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\security\SecurityConfigTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\security\JwtTokenProviderTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\controller\EnvioControllerTest.class
+cr\ac\ucr\paraiso\ie\c5l811\expresofast\controller\AuthControllerTest.class

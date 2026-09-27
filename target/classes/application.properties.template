@@ -1,0 +1,14 @@
+spring.application.name=expresofast
+server.port=8080
+
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=ExpresoFastC5L811_II2026;encrypt=true;trustServerCertificate=true
+spring.datasource.username=basesdedatos
+spring.datasource.password=BasesRP2025
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+app.jwt.secret=JimenaNavaAlvJime0206$&ExpresoFastJWT2026ClaveSegura
+app.jwt.expiration-ms=3600000
