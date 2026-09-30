@@ -1,0 +1,12 @@
+@"
+node_modules/
+dist/
+.angular/
+.env
+target/
+*.log
+*.tgz
+*.tar
+*-temp/
+package/
+"@ | Set-Content .gitignore

@@ -1,0 +1,33 @@
+<section class="rastreo">
+  <h1>Rastrear guía</h1>
+  <p>Busque el envío utilizando su código.</p>
+
+  <div class="buscador">
+    <input
+      type="text"
+      name="codigo"
+      [(ngModel)]="codigo"
+      placeholder="Ej: EXP-9901">
+    <button (click)="buscar()">Buscar</button>
+  </div>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <article *ngIf="envio" class="ficha">
+    <h2>{{ envio.codigoRastreo }}</h2>
+    <p><strong>Destinatario:</strong> {{ envio.destinatario }}</p>
+    <p><strong>Dirección:</strong> {{ envio.direccionDestino }}</p>
+    <p><strong>Flete:</strong> ₡{{ envio.montoFlete | number:'1.2-2' }}</p>
+    <p><strong>Estado:</strong> {{ envio.estado }}</p>
+
+    <div class="barra">
+      <div class="progreso" [style.width.%]="progreso()"></div>
+    </div>
+
+    <div class="pasos">
+      <span>PENDIENTE</span>
+      <span>EN_TRANSITO</span>
+      <span>ENTREGADO</span>
+    </div>
+  </article>
+</section>

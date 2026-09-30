@@ -1,0 +1,10 @@
+.formulario { max-width:650px; margin:auto; background:white; padding:30px; border-radius:12px; box-shadow:0 2px 10px #00000012; }
+form { display:flex; flex-direction:column; gap:18px; }
+label { display:flex; flex-direction:column; gap:7px; font-weight:bold; }
+input { padding:11px; border:1px solid #bbb; border-radius:7px; font-size:15px; }
+button { border:0; padding:11px 18px; border-radius:8px; cursor:pointer; background:#1769aa; color:white; }
+button:disabled { opacity:.6; cursor:not-allowed; }
+.secundario { background:#666; }
+.acciones { display:flex; gap:10px; }
+.exito { color:#0f5132; background:#d1e7dd; padding:10px; border-radius:8px; }
+.error { color:#842029; background:#f8d7da; padding:10px; border-radius:8px; }

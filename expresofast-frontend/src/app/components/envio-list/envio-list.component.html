@@ -1,0 +1,48 @@
+<section>
+  <div class="encabezado">
+    <div>
+      <h1>Dashboard de envíos</h1>
+      <p>Lista de guías registradas en ExpresoFast.</p>
+    </div>
+    <button (click)="cargarEnvios()">Actualizar</button>
+  </div>
+
+  <p *ngIf="cargando">Cargando envíos...</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <div class="tabla-contenedor" *ngIf="!cargando && envios.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Rastreo</th>
+          <th>Destinatario</th>
+          <th>Dirección</th>
+          <th>Flete</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let envio of envios">
+          <td><strong>{{ envio.codigoRastreo }}</strong></td>
+          <td>{{ envio.destinatario || 'No especificado' }}</td>
+          <td>{{ envio.direccionDestino }}</td>
+          <td>₡{{ envio.montoFlete | number:'1.2-2' }}</td>
+          <td>
+            <span class="insignia" [ngClass]="claseEstado(envio.estado)">
+              {{ envio.estado }}
+            </span>
+            <select
+              [value]="envio.estado"
+              (change)="cambiarEstado(envio, $any($event.target).value)">
+              <option *ngFor="let estado of estados" [value]="estado">
+                {{ estado }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="!cargando && envios.length === 0">No hay envíos registrados.</p>
+</section>
