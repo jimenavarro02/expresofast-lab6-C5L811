@@ -28,7 +28,11 @@ export class EnvioListComponent implements OnInit {
     this.error = '';
 
     this.envioService.obtenerEnvios().subscribe({
+<<<<<<< HEAD
       next: (datos: Envio[]) => {
+=======
+      next: (datos) => {
+>>>>>>> 1c90a2d51792e18d6e339edf0ebc941348ec1ce9
         this.envios = datos;
         this.cargando = false;
       },
@@ -40,6 +44,7 @@ export class EnvioListComponent implements OnInit {
   }
 
   cambiarEstado(envio: Envio, nuevoEstado: string): void {
+<<<<<<< HEAD
     if (envio.id === undefined) {
       this.error = 'El envío no tiene un ID válido.';
       return;
@@ -47,6 +52,10 @@ export class EnvioListComponent implements OnInit {
 
     this.envioService.actualizarEstado(envio.id, nuevoEstado).subscribe({
       next: (actualizado: Envio) => {
+=======
+    this.envioService.actualizarEstado(envio.id, nuevoEstado).subscribe({
+      next: (actualizado) => {
+>>>>>>> 1c90a2d51792e18d6e339edf0ebc941348ec1ce9
         envio.estado = actualizado.estado;
       },
       error: () => {
@@ -57,6 +66,12 @@ export class EnvioListComponent implements OnInit {
   }
 
   claseEstado(estado: string): string {
+<<<<<<< HEAD
     return estado ? estado.toLowerCase() : '';
   }
 }
+=======
+    return estado.toLowerCase();
+  }
+}
+>>>>>>> 1c90a2d51792e18d6e339edf0ebc941348ec1ce9

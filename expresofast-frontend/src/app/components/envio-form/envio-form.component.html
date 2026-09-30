@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container mt-4">
   <h2>Registrar Nuevo Envío</h2>
 
@@ -60,3 +61,50 @@
     </div>
   </form>
 </div>
+=======
+<section class="formulario">
+  <h1>Registrar nuevo envío</h1>
+  <p>Complete los datos básicos de la guía.</p>
+
+  <form (ngSubmit)="registrar()">
+    <label>
+      Destinatario
+      <input
+        type="text"
+        name="destinatario"
+        [(ngModel)]="destinatario"
+        required>
+    </label>
+
+    <label>
+      Dirección de destino
+      <input
+        type="text"
+        name="direccionDestino"
+        [(ngModel)]="direccionDestino"
+        required>
+    </label>
+
+    <label>
+      Monto del flete
+      <input
+        type="number"
+        name="montoFlete"
+        [(ngModel)]="montoFlete"
+        min="0.01"
+        step="0.01"
+        required>
+    </label>
+
+    <p class="exito" *ngIf="mensaje">{{ mensaje }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Registrar envío' }}
+      </button>
+      <button type="button" class="secundario" (click)="volver()">Volver</button>
+    </div>
+  </form>
+</section>
+>>>>>>> 1c90a2d51792e18d6e339edf0ebc941348ec1ce9
